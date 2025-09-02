@@ -37,15 +37,19 @@ test-compile:
 # Compile and install examples
 .PHONY: examples
 examples: compile
-	@echo "Compiling examples..."
+	@echo "Building examples with CMake..."
+	cd $(BUILD_DIR) && $(CMAKE) --build . --target chart
+	cd $(BUILD_DIR) && $(CMAKE) --build . --target fifth
+	cd $(BUILD_DIR) && $(CMAKE) --build . --target quartal
+	cd $(BUILD_DIR) && $(CMAKE) --build . --target quintal
+	cd $(BUILD_DIR) && $(CMAKE) --build . --target trans
+	@echo "Copying examples to $(BIN_DIR)..."
 	@mkdir -p $(BIN_DIR)
-	@for example in $(EXAMPLES_DIR)/*.c; do \
-		if [ -f "$$example" ]; then \
-			example_name=$$(basename "$$example" .c); \
-			echo "Compiling $$example_name..."; \
-			gcc -I inc -I src $(BUILD_DIR)/libmahler.a "$$example" -o $(BIN_DIR)/"$$example_name" || exit 1; \
-		fi; \
-	done
+	@cp $(BUILD_DIR)/chart $(BIN_DIR)/
+	@cp $(BUILD_DIR)/fifth $(BIN_DIR)/
+	@cp $(BUILD_DIR)/quartal $(BIN_DIR)/
+	@cp $(BUILD_DIR)/quintal $(BIN_DIR)/
+	@cp $(BUILD_DIR)/trans $(BIN_DIR)/
 	@echo "Examples installed in $(BIN_DIR)/"
 
 # Run all compiled examples
