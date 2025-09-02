@@ -1,0 +1,96 @@
+// Time signature validation tests //
+
+// 4/4 time: should accept 4 quarter notes
+struct mah_time_sig common_time = TIME_SIG(4, 4);
+struct mah_timed_note measure_44[] = {
+    TIMED_NOTE(C, 0, 4, MAH_QUARTER, NULL),
+    TIMED_NOTE(D, 0, 4, MAH_QUARTER, NULL),
+    TIMED_NOTE(E, 0, 4, MAH_QUARTER, NULL),
+    TIMED_NOTE(F, 0, 4, MAH_QUARTER, NULL)
+};
+mah_validate_measure(measure_44, 4, common_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// 3/4 time: should reject 4 quarter notes (too long)
+struct mah_time_sig waltz_time = TIME_SIG(3, 4);
+ASSERT_E(mah_validate_measure(measure_44, 4, waltz_time, &ERR), ERROR_INVALID_MEASURE_DURATION);
+
+// 3/4 time: should accept 3 quarter notes
+struct mah_timed_note measure_34[] = {
+    TIMED_NOTE(G, 0, 4, MAH_QUARTER, NULL),
+    TIMED_NOTE(A, 0, 4, MAH_QUARTER, NULL),
+    TIMED_NOTE(B, 0, 4, MAH_QUARTER, NULL)
+};
+mah_validate_measure(measure_34, 3, waltz_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// Complex example: dotted half + quarter in 4/4 (3 beats + 1 beat = 4 beats)
+struct mah_timed_note complex_measure[] = {
+    TIMED_NOTE(G, 0, 4, MAH_DOTTED_HALF, NULL),  // 3 beats (1440 ticks)
+    TIMED_NOTE(A, 0, 4, MAH_QUARTER, NULL)       // 1 beat (480 ticks)
+};
+mah_validate_measure(complex_measure, 2, common_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// 6/8 time: 6 eighth notes
+struct mah_time_sig six_eight = TIME_SIG(6, 8);
+struct mah_timed_note measure_68[] = {
+    TIMED_NOTE(C, 0, 4, MAH_EIGHTH, NULL),
+    TIMED_NOTE(D, 0, 4, MAH_EIGHTH, NULL),
+    TIMED_NOTE(E, 0, 4, MAH_EIGHTH, NULL),
+    TIMED_NOTE(F, 0, 4, MAH_EIGHTH, NULL),
+    TIMED_NOTE(G, 0, 4, MAH_EIGHTH, NULL),
+    TIMED_NOTE(A, 0, 4, MAH_EIGHTH, NULL)
+};
+mah_validate_measure(measure_68, 6, six_eight, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// 2/2 time: 2 half notes (cut time)
+struct mah_time_sig cut_time = TIME_SIG(2, 2);
+struct mah_timed_note measure_22[] = {
+    TIMED_NOTE(C, 0, 4, MAH_HALF, NULL),
+    TIMED_NOTE(F, 0, 4, MAH_HALF, NULL)
+};
+mah_validate_measure(measure_22, 2, cut_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// Measure with rests
+struct mah_timed_note measure_with_rests[] = {
+    TIMED_NOTE(C, 0, 4, MAH_QUARTER, NULL),
+    REST(MAH_QUARTER),
+    TIMED_NOTE(D, 0, 4, MAH_QUARTER, NULL),
+    REST(MAH_QUARTER)
+};
+mah_validate_measure(measure_with_rests, 4, common_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+
+// Invalid time signatures
+struct mah_timed_note test_measure[] = {TIMED_NOTE(C, 0, 4, MAH_QUARTER, NULL)};
+ASSERT_E(mah_validate_measure(test_measure, 1, TIME_SIG(0, 4), &ERR), ERROR_INVALID_TIME_SIG);
+ASSERT_E(mah_validate_measure(test_measure, 1, TIME_SIG(4, 0), &ERR), ERROR_INVALID_TIME_SIG);
+ASSERT_E(mah_validate_measure(test_measure, 1, TIME_SIG(-1, 4), &ERR), ERROR_INVALID_TIME_SIG);
+
+// Invalid measure parameters
+ASSERT_E(mah_validate_measure(NULL, 1, common_time, &ERR), ERROR_INVALID_MEASURE_DURATION);
+ASSERT_E(mah_validate_measure(test_measure, 0, common_time, &ERR), ERROR_INVALID_MEASURE_DURATION);
+ASSERT_E(mah_validate_measure(test_measure, -1, common_time, &ERR), ERROR_INVALID_MEASURE_DURATION);
+
+// Test with invalid tuplet in measure validation
+struct mah_tuplet invalid_tuplet = {0, 2, MAH_QUARTER}; // Invalid n=0
+struct mah_timed_note invalid_tuplet_note = TIMED_NOTE(C, 0, 4, MAH_TUPLET, &invalid_tuplet);
+struct mah_timed_note measure_with_invalid_tuplet[] = {invalid_tuplet_note};
+ASSERT_E(mah_validate_measure(measure_with_invalid_tuplet, 1, common_time, &ERR), ERROR_INVALID_TUPLET);
+
+// Mix of regular notes and tuplets in a measure
+struct mah_tuplet measure_triplet = mah_create_tuplet(3, 2, MAH_QUARTER, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);
+struct mah_timed_note mixed_measure[] = {
+    TIMED_NOTE(C, 0, 4, MAH_QUARTER, NULL),          // 480 ticks
+    TIMED_NOTE(D, 0, 4, MAH_TUPLET, &measure_triplet),       // 320 ticks  
+    TIMED_NOTE(E, 0, 4, MAH_TUPLET, &measure_triplet),       // 320 ticks
+    TIMED_NOTE(F, 0, 4, MAH_TUPLET, &measure_triplet),       // 320 ticks
+    TIMED_NOTE(G, 0, 4, MAH_QUARTER, NULL)           // 480 ticks
+    // Total: 480 + 320*3 + 480 = 1920 ticks = 1 whole note = 4/4 measure
+};
+mah_validate_measure(mixed_measure, 5, common_time, &ERR);
+ASSERT_D(ERR, MAH_ERROR_NONE);

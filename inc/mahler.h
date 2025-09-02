@@ -14,5 +14,6 @@
 #include "chord/chord.h"
 #include "key/key.h"
 #include "misc/misc.h"
+#include "rhythm/rhythm.h"
 
 #endif

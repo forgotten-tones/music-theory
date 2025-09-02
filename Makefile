@@ -11,7 +11,7 @@ all: compile
 
 # Compile the library
 .PHONY: compile
-compile:
+compile: clean
 	@echo "Compiling Mahler library..."
 	mkdir -p $(BUILD_DIR)
 	cd $(BUILD_DIR) && $(CMAKE) ..
@@ -19,7 +19,7 @@ compile:
 
 # Run all tests
 .PHONY: test
-test: test-compile
+test: clean test-compile
 	@echo "Running test suite..."
 	cd $(TEST_BUILD_DIR) && ./test
 
