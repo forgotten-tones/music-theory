@@ -44,6 +44,9 @@ int
 main(void)
 {
     
+    #include "suites/note/mah_note_functions.test"
+    #include "suites/note/mah_duration.test"
+    
     #include "suites/inter/mah_return_inter.test"
     #include "suites/inter/mah_get_inter.test"
     

@@ -153,3 +153,11 @@
 #define AUGMENTED MAH_AUGMENTED
 #define DIMINISHED MAH_DIMINISHED
 #define PERFECT MAH_PERFECT
+
+// Duration testing macros //
+#define ASSERT_DUR(act, exp) ASSERT(mah_compare_durations(&act, &exp, &ERR) == 0 && ERR == MAH_ERROR_NONE, exp)
+#define TUPLET(n, m, base) ((struct mah_tuplet) {n, m, base})
+#define TIMED_NOTE(tone, acci, pitch, dur, tuplet_ptr) ((struct mah_timed_note) {MAH_ ## tone, acci, pitch, dur, tuplet_ptr})
+
+// Time signature macro //
+#define TIME_SIG(num, den) ((struct mah_time_sig) {num, den})

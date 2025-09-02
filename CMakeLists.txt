@@ -10,6 +10,7 @@ add_library(
     src/key/key.c
     src/misc/misc.c
     src/shared/shared.c
+    src/note/note.c
 )
 
 target_include_directories(

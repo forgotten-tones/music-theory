@@ -35,6 +35,14 @@ mah_get_error(enum mah_error const err)
         return "Too many Scale Return Results";
     case MAH_ERROR_OVERFLOW_CHORD_RETURN:
         return "Too many Chord Return Results";
+    case MAH_ERROR_INVALID_TUPLET:
+        return "Invalid Tuplet Specification";
+    case MAH_ERROR_INVALID_MEASURE_DURATION:
+        return "Invalid Measure Duration";
+    case MAH_ERROR_INVALID_TIME_SIG:
+        return "Invalid Time Signature";
+    case MAH_ERROR_INVALID_DURATION:
+        return "Invalid Duration";
     default:
         return "Unknown Error";
     }
