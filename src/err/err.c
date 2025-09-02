@@ -43,6 +43,10 @@ mah_get_error(enum mah_error const err)
         return "Invalid Time Signature";
     case MAH_ERROR_INVALID_DURATION:
         return "Invalid Duration";
+    case MAH_ERROR_INVALID_NONTERTIAN_SIZE:
+        return "Invalid Nontertian Chord Size";
+    case MAH_ERROR_INVALID_FOLD_LEVEL:
+        return "Invalid Fold Level";
     default:
         return "Unknown Error";
     }

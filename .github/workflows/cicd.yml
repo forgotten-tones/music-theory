@@ -1,14 +1,14 @@
-name: Run Unit Tests
+name: CI/CD
 
 on:
   push:
     branches: [ "main", "master" ]
     paths-ignore:
       - '**.md'
-      
+
   pull_request:
     branches: [ "main", "master" ]
-  
+
   workflow_dispatch:
     inputs:
       os_filter:
@@ -19,7 +19,7 @@ on:
         options:
         - ''
         - 'ubuntu-latest'
-        - 'macos-latest' 
+        - 'macos-latest'
         - 'windows-latest'
 
 env:
@@ -34,7 +34,7 @@ jobs:
         include:
           - os: ubuntu-latest
             name: Linux
-          - os: macos-latest  
+          - os: macos-latest
             name: macOS
           - os: windows-latest
             name: Windows
@@ -63,8 +63,12 @@ jobs:
       run: make compile
 
     - name: Run tests (Unix)
-      if: runner.os != 'Windows' 
+      if: runner.os != 'Windows'
       run: make test
+
+    - name: Run examples (Unix)
+      if: runner.os != 'Windows'
+      run: make run-examples
 
     # Windows - use CMake directly since make isn't available
     - name: Configure CMake (Windows)
@@ -79,3 +83,16 @@ jobs:
       if: runner.os == 'Windows'
       working-directory: ${{github.workspace}}/build
       run: ./Release/test
+
+    # Build and run examples on Windows
+    - name: Configure CMake for main library (Windows)
+      if: runner.os == 'Windows'
+      run: cmake -B ${{github.workspace}}/main-build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build main library and examples (Windows)
+      if: runner.os == 'Windows'
+      run: cmake --build ${{github.workspace}}/main-build --config ${{env.BUILD_TYPE}}
+
+    - name: Run examples (Windows)
+      if: runner.os == 'Windows'
+      run: cmake --build ${{github.workspace}}/main-build --target run-examples --config ${{env.BUILD_TYPE}}

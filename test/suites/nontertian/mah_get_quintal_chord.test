@@ -1,0 +1,51 @@
+// Test invalid size - too small
+ASSERT_E(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 1, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), ERROR_INVALID_NONTERTIAN_SIZE);
+
+// Test invalid size - too large  
+ASSERT_E(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 6, NOTE_N(6, 0), NOTE_N(6, 0), &ERR), ERROR_INVALID_NONTERTIAN_SIZE);
+
+// Test null pointers
+ASSERT_E(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 3, NULL, NOTE_N(3, 0), &ERR), ERROR_INVALID_RANGE);
+ASSERT_E(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 3, NOTE_N(3, 0), NULL, &ERR), ERROR_INVALID_RANGE);
+
+// Test 2-note quintal chord on C4: C4-G4
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 2, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    2, 0, STANDARD,
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4)),
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4))
+));
+
+// Test 3-note quintal chord on C4: C4-G4-D5
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 3, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    3, 0, STANDARD,
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5)),
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5))
+));
+
+// Test 4-note quintal chord on C4: C4-G4-D5-A5
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 4, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    4, 0, STANDARD,
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5), NOTE(A, 0, MAH_OCTAVE_5)),
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5), NOTE(A, 0, MAH_OCTAVE_5))
+));
+
+// Test 5-note quintal chord on C4: C4-G4-D5-A5-E6
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(C, 0, MAH_OCTAVE_4), 5, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    5, 0, STANDARD,
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5), NOTE(A, 0, MAH_OCTAVE_5), NOTE(E, 0, MAH_OCTAVE_6)),
+    NOTE_L(NOTE(C, 0, MAH_OCTAVE_4), NOTE(G, 0, MAH_OCTAVE_4), NOTE(D, 0, MAH_OCTAVE_5), NOTE(A, 0, MAH_OCTAVE_5), NOTE(E, 0, MAH_OCTAVE_6))
+));
+
+// Test quintal chord on D with sharps
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(D, 0, MAH_OCTAVE_4), 3, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    3, 0, STANDARD,
+    NOTE_L(NOTE(D, 0, MAH_OCTAVE_4), NOTE(A, 0, MAH_OCTAVE_4), NOTE(E, 0, MAH_OCTAVE_5)),
+    NOTE_L(NOTE(D, 0, MAH_OCTAVE_4), NOTE(A, 0, MAH_OCTAVE_4), NOTE(E, 0, MAH_OCTAVE_5))
+));
+
+// Test quintal chord on extreme octave
+ASSERT_NCHD(mah_get_quintal_chord(NOTE(F, 0, MAH_OCTAVE_9), 2, NOTE_N(5, 0), NOTE_N(5, 0), &ERR), NCHD(
+    2, 0, STANDARD,
+    NOTE_L(NOTE(F, 0, MAH_OCTAVE_9), NOTE(C, 0, MAH_OCTAVE_10)),
+    NOTE_L(NOTE(F, 0, MAH_OCTAVE_9), NOTE(C, 0, MAH_OCTAVE_10))
+));

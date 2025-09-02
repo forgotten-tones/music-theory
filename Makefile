@@ -4,6 +4,8 @@
 CMAKE = cmake
 BUILD_DIR = build
 TEST_BUILD_DIR = test/build
+BIN_DIR = bin
+EXAMPLES_DIR = ex
 
 # Default target
 .PHONY: all
@@ -32,12 +34,41 @@ test-compile:
 	cd $(TEST_BUILD_DIR) && $(CMAKE) ..
 	cd $(TEST_BUILD_DIR) && $(CMAKE) --build .
 
+# Compile and install examples
+.PHONY: examples
+examples: compile
+	@echo "Compiling examples..."
+	@mkdir -p $(BIN_DIR)
+	@for example in $(EXAMPLES_DIR)/*.c; do \
+		if [ -f "$$example" ]; then \
+			example_name=$$(basename "$$example" .c); \
+			echo "Compiling $$example_name..."; \
+			gcc -I inc -I src $(BUILD_DIR)/libmahler.a "$$example" -o $(BIN_DIR)/"$$example_name" || exit 1; \
+		fi; \
+	done
+	@echo "Examples installed in $(BIN_DIR)/"
+
+# Run all compiled examples
+.PHONY: run-examples
+run-examples: examples
+	@echo "Running all examples..."
+	@for example in $(BIN_DIR)/*; do \
+		if [ -x "$$example" ]; then \
+			example_name=$$(basename "$$example"); \
+			echo "=== Running $$example_name ==="; \
+			"$$example" || exit 1; \
+			echo ""; \
+		fi; \
+	done
+	@echo "All examples completed."
+
 # Clean build artifacts
 .PHONY: clean
 clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf $(BUILD_DIR)
 	rm -rf $(TEST_BUILD_DIR)
+	rm -rf $(BIN_DIR)
 
 # Clean and rebuild everything
 .PHONY: rebuild
@@ -53,9 +84,11 @@ help:
 	@echo "Available targets:"
 	@echo "  all          - Compile the library (default)"
 	@echo "  compile      - Compile the Mahler library"
+	@echo "  examples     - Compile and install all examples to ./bin"
+	@echo "  run-examples - Compile and run all examples"
 	@echo "  test         - Compile and run all tests"
 	@echo "  test-compile - Compile the test suite only"
-	@echo "  clean        - Remove build artifacts"
+	@echo "  clean        - Remove build artifacts and examples"
 	@echo "  rebuild      - Clean and rebuild library"
 	@echo "  rebuild-all  - Clean and rebuild library and tests"
 	@echo "  help         - Show this help message"

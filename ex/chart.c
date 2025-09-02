@@ -23,7 +23,7 @@ main(void)
             MAH_NATURAL,
             0,
         },
-        &MAH_MAJOR_SCALE, sc_notes, MAH_ASCEND, NULL,
+        &MAH_MAJOR_SCALE, sc_notes, MAH_ASCEND, NULL
     );
 
     char disp[MAH_DISP_LEN];
