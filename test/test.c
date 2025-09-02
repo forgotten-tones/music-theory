@@ -94,7 +94,7 @@ comp_note(struct mah_note note_a, struct mah_note note_b)
 {
     return note_a.tone == note_b.tone &&
            note_a.acci == note_b.acci &&
-           note_a.pitch == note_b.pitch;
+           note_a.octave == note_b.octave;
 }
 
 bool

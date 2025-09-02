@@ -139,7 +139,7 @@ mah_invert_chord(struct mah_chord* chord, int const inv, enum mah_error* err)
     for (int j = 0; j < inv; j++)
     {
         struct mah_note temp = chord->notes[0]; // save root since only root needs to "loop" to last place
-        temp.pitch += 1;
+        temp.octave += 1;
         for (int i = 0; i < chord->size - 1; i++)
         {
             chord->notes[i] = chord->notes[i + 1];

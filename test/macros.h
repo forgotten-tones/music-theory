@@ -30,7 +30,7 @@
     Macros are included to save typing. 1st, 2nd, ... refer to the nth parameter
     
     BUF_C        Creates char buffer of size 1st 
-    NOTE         Creates note of note 1st, accidental 2nd, pitch 3rd. No need for MAH prefix in 1st
+    NOTE         Creates note of note 1st, accidental 2nd, octave 3rd. No need for MAH prefix in 1st
     NOTE_K       Takes in any number of notes to put as notes parameter of mah_key_sig
     NOTE_N       Creates mah_note buffer of size 1st, with the contents in 2nd
     NOTE_L       Creates empty mah_note buffer with any number of notes
@@ -67,7 +67,7 @@
     ASSERT(ERR == MAH_ ## err, MAH_ ## err);\
 } while (0)
     
-#define NOTE(note, acci, pitch) ((struct mah_note) {MAH_ ## note, acci, pitch})
+#define NOTE(note, acci, octave) ((struct mah_note) {MAH_ ## note, acci, octave})
 #define NOTE_K(...) {__VA_ARGS__}
 #define NOTE_N(size, ...) (struct mah_note[size]) {__VA_ARGS__}
 #define NOTE_L(...) (struct mah_note[]) {__VA_ARGS__}
@@ -157,7 +157,7 @@
 // Duration testing macros //
 #define ASSERT_DUR(act, exp) ASSERT(mah_compare_durations(&act, &exp, &ERR) == 0 && ERR == MAH_ERROR_NONE, exp)
 #define TUPLET(n, m, base) ((struct mah_tuplet) {n, m, base})
-#define TIMED_NOTE(tone, acci, pitch, dur, tuplet_ptr) ((struct mah_timed_note) {MAH_ ## tone, acci, pitch, dur, tuplet_ptr})
+#define TIMED_NOTE(tone, acci, octave, dur, tuplet_ptr) ((struct mah_timed_note) {MAH_ ## tone, acci, octave, dur, tuplet_ptr})
 
 // Rhythm testing macros //
 #define TIME_SIG(num, den) ((struct mah_time_sig) {num, den})

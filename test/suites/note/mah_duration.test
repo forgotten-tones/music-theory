@@ -1,35 +1,35 @@
 // Basic duration tests //
 
 // Test basic duration enum values (1920 ticks = whole note)
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, 4, MAH_WHOLE, NULL), &ERR), 1920);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, MAH_OCTAVE_4, MAH_WHOLE, NULL), &ERR), 1920);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, 4, MAH_HALF, NULL), &ERR), 960);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, MAH_OCTAVE_4, MAH_HALF, NULL), &ERR), 960);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(E, 0, 4, MAH_QUARTER, NULL), &ERR), 480);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(E, 0, MAH_OCTAVE_4, MAH_QUARTER, NULL), &ERR), 480);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(F, 0, 4, MAH_EIGHTH, NULL), &ERR), 240);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(F, 0, MAH_OCTAVE_4, MAH_EIGHTH, NULL), &ERR), 240);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, 4, MAH_SIXTEENTH, NULL), &ERR), 120);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, MAH_OCTAVE_4, MAH_SIXTEENTH, NULL), &ERR), 120);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, 4, MAH_THIRTYSECOND, NULL), &ERR), 60);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, MAH_OCTAVE_4, MAH_THIRTYSECOND, NULL), &ERR), 60);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, 4, MAH_SIXTYFOURTH, NULL), &ERR), 30);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, MAH_OCTAVE_4, MAH_SIXTYFOURTH, NULL), &ERR), 30);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, 5, MAH_ONETWENTYEIGHTH, NULL), &ERR), 15);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, MAH_OCTAVE_5, MAH_ONETWENTYEIGHTH, NULL), &ERR), 15);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Test dotted notes (dotted = 1.5x base duration)
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(F, 0, 4, MAH_DOTTED_WHOLE, NULL), &ERR), 2880);  // 1920 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(F, 0, MAH_OCTAVE_4, MAH_DOTTED_WHOLE, NULL), &ERR), 2880);  // 1920 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, 4, MAH_DOTTED_HALF, NULL), &ERR), 1440);   // 960 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, MAH_OCTAVE_4, MAH_DOTTED_HALF, NULL), &ERR), 1440);   // 960 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, 4, MAH_DOTTED_QUARTER, NULL), &ERR), 720);  // 480 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, MAH_OCTAVE_4, MAH_DOTTED_QUARTER, NULL), &ERR), 720);  // 480 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, 4, MAH_DOTTED_EIGHTH, NULL), &ERR), 360);   // 240 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, MAH_OCTAVE_4, MAH_DOTTED_EIGHTH, NULL), &ERR), 360);   // 240 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, 5, MAH_DOTTED_SIXTEENTH, NULL), &ERR), 180); // 120 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, MAH_OCTAVE_5, MAH_DOTTED_SIXTEENTH, NULL), &ERR), 180); // 120 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, 5, MAH_DOTTED_THIRTYSECOND, NULL), &ERR), 90); // 60 * 1.5
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, MAH_OCTAVE_5, MAH_DOTTED_THIRTYSECOND, NULL), &ERR), 90); // 60 * 1.5
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Tuplet tests //
@@ -37,25 +37,25 @@ ASSERT_D(ERR, MAH_ERROR_NONE);
 // Triplet: 3 notes in time of 2 quarters = 480 * 2 / 3 = 320 ticks each
 struct mah_tuplet triplet = mah_create_tuplet(3, 2, MAH_QUARTER, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, 4, MAH_TUPLET, &triplet), &ERR), 320);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(A, 0, MAH_OCTAVE_4, MAH_TUPLET, &triplet), &ERR), 320);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Quintuplet: 5 notes in time of 4 quarters = 480 * 4 / 5 = 384 ticks each  
 struct mah_tuplet quintuplet = mah_create_tuplet(5, 4, MAH_QUARTER, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, 4, MAH_TUPLET, &quintuplet), &ERR), 384);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(B, 0, MAH_OCTAVE_4, MAH_TUPLET, &quintuplet), &ERR), 384);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Septuplet: 7 notes in time of 4 quarters = 480 * 4 / 7 = ~274 ticks each
 struct mah_tuplet septuplet = mah_create_tuplet(7, 4, MAH_QUARTER, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, 5, MAH_TUPLET, &septuplet), &ERR), 274); // 1920/7 = ~274
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(C, 0, MAH_OCTAVE_5, MAH_TUPLET, &septuplet), &ERR), 274); // 1920/7 = ~274
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Eighth note triplet: 3 eighths in time of 2 eighths = 240 * 2 / 3 = 160 ticks each
 struct mah_tuplet eighth_triplet = mah_create_tuplet(3, 2, MAH_EIGHTH, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, 5, MAH_TUPLET, &eighth_triplet), &ERR), 160);
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(D, 0, MAH_OCTAVE_5, MAH_TUPLET, &eighth_triplet), &ERR), 160);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 
@@ -65,7 +65,7 @@ ASSERT_D(ERR, MAH_ERROR_NONE);
 struct mah_timed_note quarter_rest = REST(MAH_QUARTER);
 ASSERT_D(quarter_rest.tone_timed, MAH_REST);
 ASSERT_D(quarter_rest.acci_timed, 0);
-ASSERT_D(quarter_rest.pitch_timed, 0);
+ASSERT_D(quarter_rest.octave_timed, MAH_OCTAVE_0);
 ASSERT_D(quarter_rest.duration, MAH_QUARTER);
 ASSERT_D(mah_get_duration_ticks(&REST(MAH_HALF), &ERR), 960);
 ASSERT_D(ERR, MAH_ERROR_NONE);
@@ -74,9 +74,9 @@ ASSERT_D(ERR, MAH_ERROR_NONE);
 // Duration comparison tests //
 
 // Test duration comparison
-struct mah_timed_note whole_note = TIMED_NOTE(C, 0, 4, MAH_WHOLE, NULL);
-struct mah_timed_note half_note = TIMED_NOTE(D, 0, 4, MAH_HALF, NULL);
-struct mah_timed_note quarter_note = TIMED_NOTE(E, 0, 4, MAH_QUARTER, NULL);
+struct mah_timed_note whole_note = TIMED_NOTE(C, 0, MAH_OCTAVE_4, MAH_WHOLE, NULL);
+struct mah_timed_note half_note = TIMED_NOTE(D, 0, MAH_OCTAVE_4, MAH_HALF, NULL);
+struct mah_timed_note quarter_note = TIMED_NOTE(E, 0, MAH_OCTAVE_4, MAH_QUARTER, NULL);
 
 ASSERT_D(mah_compare_durations(&whole_note, &half_note, &ERR), 1);    // whole > half
 ASSERT_D(ERR, MAH_ERROR_NONE);
@@ -86,8 +86,8 @@ ASSERT_D(mah_compare_durations(&quarter_note, &quarter_note, &ERR), 0); // quart
 ASSERT_D(ERR, MAH_ERROR_NONE);
 
 // Compare dotted and regular notes
-struct mah_timed_note dotted_quarter = TIMED_NOTE(F, 0, 4, MAH_DOTTED_QUARTER, NULL);
-struct mah_timed_note eighth_plus_sixteenth = TIMED_NOTE(G, 0, 4, MAH_EIGHTH, NULL); // Just for comparison reference
+struct mah_timed_note dotted_quarter = TIMED_NOTE(F, 0, MAH_OCTAVE_4, MAH_DOTTED_QUARTER, NULL);
+struct mah_timed_note eighth_plus_sixteenth = TIMED_NOTE(G, 0, MAH_OCTAVE_4, MAH_EIGHTH, NULL); // Just for comparison reference
 
 ASSERT_D(mah_compare_durations(&dotted_quarter, &quarter_note, &ERR), 1); // dotted quarter > quarter
 ASSERT_D(ERR, MAH_ERROR_NONE);
@@ -107,23 +107,23 @@ ASSERT_E(mah_create_tuplet(3, 2, MAH_TUPLET, &ERR), ERROR_INVALID_TUPLET);
 
 // Test getting duration fractions
 int num, den;
-mah_get_duration_fraction(&TIMED_NOTE(C, 0, 4, MAH_WHOLE, NULL), &num, &den, &ERR);
+mah_get_duration_fraction(&TIMED_NOTE(C, 0, MAH_OCTAVE_4, MAH_WHOLE, NULL), &num, &den, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 ASSERT_D(num, 1);
 ASSERT_D(den, 1);
 
-mah_get_duration_fraction(&TIMED_NOTE(D, 0, 4, MAH_HALF, NULL), &num, &den, &ERR);
+mah_get_duration_fraction(&TIMED_NOTE(D, 0, MAH_OCTAVE_4, MAH_HALF, NULL), &num, &den, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 ASSERT_D(num, 1);
 ASSERT_D(den, 2);
 
-mah_get_duration_fraction(&TIMED_NOTE(E, 0, 4, MAH_DOTTED_QUARTER, NULL), &num, &den, &ERR);
+mah_get_duration_fraction(&TIMED_NOTE(E, 0, MAH_OCTAVE_4, MAH_DOTTED_QUARTER, NULL), &num, &den, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 ASSERT_D(num, 3);
 ASSERT_D(den, 8);
 
 // Test triplet fraction: 3 notes in 2 quarters = (1/4 * 2) / 3 = 2/12 = 1/6
-mah_get_duration_fraction(&TIMED_NOTE(F, 0, 4, MAH_TUPLET, &triplet), &num, &den, &ERR);
+mah_get_duration_fraction(&TIMED_NOTE(F, 0, MAH_OCTAVE_4, MAH_TUPLET, &triplet), &num, &den, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
 ASSERT_D(num, 1);
 ASSERT_D(den, 6);
@@ -133,6 +133,6 @@ ASSERT_D(den, 6);
 // Duplet: 2 notes in time of 3 (unusual but valid)
 struct mah_tuplet duplet = mah_create_tuplet(2, 3, MAH_QUARTER, &ERR);
 ASSERT_D(ERR, MAH_ERROR_NONE);
-ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, 4, MAH_TUPLET, &duplet), &ERR), 720); // 480 * 3 / 2
+ASSERT_D(mah_get_duration_ticks(&TIMED_NOTE(G, 0, MAH_OCTAVE_4, MAH_TUPLET, &duplet), &ERR), 720); // 480 * 3 / 2
 ASSERT_D(ERR, MAH_ERROR_NONE);
 

@@ -31,7 +31,7 @@ mah_write_note(struct mah_note const note, char buf[], size_t const size, enum m
         return "";
     }
 
-    if (!(snprintf(buf, size, "%c%s%d", disp_note[note.tone], disp_acci[note.acci + 4], note.pitch) < size))
+    if (!(snprintf(buf, size, "%c%s%d", disp_note[note.tone], disp_acci[note.acci + 4], note.octave) < size))
     {
         SET_ERR(MAH_ERROR_OVERFLOW_PRINT_NOTE);
     }
@@ -41,6 +41,6 @@ mah_write_note(struct mah_note const note, char buf[], size_t const size, enum m
 bool
 mah_is_enharmonic(struct mah_note const note_a, struct mah_note const note_b)
 {
-    return (to_semitone(note_a.tone) + note_a.acci + note_a.pitch * SIZE_CHROMATIC) ==
-           (to_semitone(note_b.tone) + note_b.acci + note_b.pitch * SIZE_CHROMATIC);
+    return (to_semitone(note_a.tone) + note_a.acci + note_a.octave * SIZE_CHROMATIC) ==
+           (to_semitone(note_b.tone) + note_b.acci + note_b.octave * SIZE_CHROMATIC);
 }

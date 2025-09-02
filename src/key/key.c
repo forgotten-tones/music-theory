@@ -32,7 +32,7 @@ make_key_sig(struct mah_note key, int const alter, enum mah_key_type const type)
     int note_abs  = alter * note_sign;
     int acci      = alter / KEY_SIG_MAX;
 
-    key.pitch              = 0;
+    key.octave              = MAH_OCTAVE_0;
     struct mah_key_sig new = {
         .key   = key,
         .type  = type,

@@ -27,7 +27,7 @@ Here's an example that creates the C4 Blues Scale, ascending:
 ```C
 struct mah_note notes[7];
 struct mah_scale scale = mah_get_scale(
-    (struct mah_note) {MAH_C, MAH_NATURAL, 4}, &MAH_BLUES_SCALE, notes, MAH_ASCEND, NULL
+    (struct mah_note) {MAH_C, MAH_NATURAL, MAH_OCTAVE_4}, &MAH_BLUES_SCALE, notes, MAH_ASCEND, NULL
 );
 ```
 

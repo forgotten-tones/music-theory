@@ -34,7 +34,7 @@ mah_get_inter(struct mah_note const note, struct mah_interval const interval, en
         RETURN_EMPTY_STRUCT_ERR(mah_note, MAH_ERROR_INVALID_RANGE);
     }
     int inter   = (interval.steps - 1) % ADJUST_NOTE;
-    int pitch   = note.pitch + (interval.steps / SIMPLE_INTER_MAX);
+    int pitch   = note.octave + (interval.steps / SIMPLE_INTER_MAX);
     int root    = note.tone;
     int quality = interval.qual;
 
@@ -74,7 +74,7 @@ mah_get_inter(struct mah_note const note, struct mah_interval const interval, en
         .tone  = enharmonic - (above * ADJUST_NOTE),
         .acci  = above ? semi - (to_semitone(enharmonic) - SEMI_DIFF) - (enharmonic <= TONE_DIFF)
                        : semi - (to_semitone(enharmonic) - 1), // 7 -> 9 is C to E (see toSemitone),
-        .pitch = pitch,
+        .octave = pitch,
     };
 }
 
@@ -82,8 +82,8 @@ struct mah_interval
 mah_return_inter(struct mah_note const note_a, struct mah_note const note_b, enum mah_error* err)
 {
 
-    int inter = (note_b.tone + note_b.pitch * ADJUST_NOTE) - (note_a.tone + note_a.pitch * ADJUST_NOTE) + 1;
-    int pitch = inter > SIMPLE_INTER_MAX ? note_b.pitch - (inter / SIMPLE_INTER_MAX) : note_b.pitch;
+    int inter = (note_b.tone + note_b.octave * ADJUST_NOTE) - (note_a.tone + note_a.octave * ADJUST_NOTE) + 1;
+    int pitch = inter > SIMPLE_INTER_MAX ? note_b.octave - (inter / SIMPLE_INTER_MAX) : note_b.octave;
 
     if (inter <= 0)
     {
@@ -97,7 +97,7 @@ mah_return_inter(struct mah_note const note_a, struct mah_note const note_b, enu
     }
 
     int quality = (to_semitone(note_b.tone) + note_b.acci + pitch * SIZE_CHROMATIC) -
-                  (to_semitone(note_a.tone) + note_a.acci + note_a.pitch * SIZE_CHROMATIC) - INTER_STEPS[steps];
+                  (to_semitone(note_a.tone) + note_a.acci + note_a.octave * SIZE_CHROMATIC) - INTER_STEPS[steps];
 
     if (quality >= 11 && quality <= 13)
     { // treated as 1 so must adjust (C0 12 = C1 0)

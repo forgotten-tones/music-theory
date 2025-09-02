@@ -176,14 +176,14 @@ MAH_MELODIC_MIN_SCALE
 typedef struct mah_note {
     enum mah_tone tone
     int           acci;
-    int           pitch;
+    enum mah_octave octave;
 } mah_note;
 ```
 A note in scientific pitch notation.
 
 * **tone** : base tone
 * **acci** : accidental (eg, G+ is 1 and G- is -2)
-* **pitch** : octave the note resides in
+* **octave** : octave the note resides in (MAH_OCTAVE_0 through MAH_OCTAVE_9 for MIDI range)
 </details>
 
 ---
@@ -327,7 +327,7 @@ Returns a ```struct mah_chord``` with root ```root``` and type ```type```. You m
 ```C
 void mah_return_chord(struct mah_note const notes[], int num, struct mah_chord_result_list* list, struct mah_chord_check* custom, enum mah_error* err)
 ```
-Populates the ```results``` member of ```list``` with the potential chords containing every note in ```notes``` . ```num``` is the number of entries in ```notes```. The ```pitch``` of each ```struct mah_chord_result``` note is 0. Defining ```custom``` will check for chords specified in ```struct chord_list```. Set to ```MAH_CHORD_LIST_DEFAULT``` if you would like to use the predefined chord list (see Predefined). Returned results include enharmonic results (eg, Bb+ triad is also A#+ triad), in the range of non theoretical keys. If there are more possible chords than ```max``` member of ```list```, the ```err``` is set to ```MAH_ERROR_OVERFLOW_CHORD_RETURN```. This function tests for chords up to one accidental (eg, flat, natural, and sharp).
+Populates the ```results``` member of ```list``` with the potential chords containing every note in ```notes``` . ```num``` is the number of entries in ```notes```. The ```octave``` of each ```struct mah_chord_result``` note is MAH_OCTAVE_0. Defining ```custom``` will check for chords specified in ```struct chord_list```. Set to ```MAH_CHORD_LIST_DEFAULT``` if you would like to use the predefined chord list (see Predefined). Returned results include enharmonic results (eg, Bb+ triad is also A#+ triad), in the range of non theoretical keys. If there are more possible chords than ```max``` member of ```list```, the ```err``` is set to ```MAH_ERROR_OVERFLOW_CHORD_RETURN```. This function tests for chords up to one accidental (eg, flat, natural, and sharp).
 
 ---
 
