@@ -67,7 +67,7 @@
     ASSERT(ERR == MAH_ ## err, MAH_ ## err);\
 } while (0)
     
-#define NOTE(note, acci, pitch) (struct mah_note) {MAH_ ## note, acci, pitch}
+#define NOTE(note, acci, pitch) ((struct mah_note) {MAH_ ## note, acci, pitch})
 #define NOTE_K(...) {__VA_ARGS__}
 #define NOTE_N(size, ...) (struct mah_note[size]) {__VA_ARGS__}
 #define NOTE_L(...) (struct mah_note[]) {__VA_ARGS__}
@@ -76,14 +76,14 @@
 
 #define ASSERT_I(act, exp) ASSERT(comp_interval(act, exp) && (ERR == MAH_ERROR_NONE), exp)
 
-#define INTER(inter, qual) (struct mah_interval) {inter, MAH_ ## qual}
+#define INTER(inter, qual) ((struct mah_interval) {inter, MAH_ ## qual})
 #define INTER_L(...) (struct mah_interval[]) {__VA_ARGS__}
 
 // Keys //
 
 #define ASSERT_K(act, exp) ASSERT(comp_key_sig(act, exp) && (ERR == MAH_ERROR_NONE), exp)
 
-#define KEY(type, alter, size, key, notes) (struct mah_key_sig) {type, alter, size, key, notes}
+#define KEY(type, alter, size, key, notes) ((struct mah_key_sig) {type, alter, size, key, notes})
 
 #define MAJOR_KEY MAH_MAJOR_KEY
 #define MINOR_KEY MAH_MINOR_KEY
@@ -92,7 +92,7 @@
 
 #define ASSERT_ST(act, exp) ASSERT(!strcmp(act, exp), exp)
 
-#define ASSERT_BC(func, size, exp) {\
+#define ASSERT_BC(func, size, exp) do {\
     char BUF[size] = {0};\
     func;\
     ASSERT_ST(BUF, exp);\
@@ -116,13 +116,13 @@
     ASSERT(comp_chord(CHORD, exp) && (ERR == MAH_ERROR_NONE), exp);\
 } while(0)
 
-#define CHORD(size, inv, base, notes) (struct mah_chord) {size, inv, base, notes}
+#define CHORD(size, inv, base, notes) ((struct mah_chord) {size, inv, base, notes})
 #define CHORD_B(size, steps) &(struct mah_chord_base) {"", size, steps}
 
-#define CHD_RES(note, base) (struct mah_chord_result) {note, base}
+#define CHD_RES(note, base) ((struct mah_chord_result) {note, base})
 #define CHD_RES_L(size) (struct mah_chord_result[size]) {0}
 #define CHD_RES_C(...) (struct mah_chord_result[]) {__VA_ARGS__}
-#define CHD_RES_LIST(max, size, results) (struct mah_chord_result_list) {max, size, results}
+#define CHD_RES_LIST(max, size, results) ((struct mah_chord_result_list) {max, size, results})
 
 // Scale //
 
@@ -134,14 +134,22 @@
     ASSERT(comp_scale_result_list(SCALE_LIST, exp) && (ERR == MAH_ERROR_NONE), exp);\
 } while(0)
     
-#define SCALE(size, type, notes) (struct mah_scale) {size, type, notes}
+#define SCALE(size, type, notes) ((struct mah_scale) {size, type, notes})
 #define SCALE_B(size, steps) &(struct mah_scale_base) {"", size, steps}
 
-#define SCL_RES(note, base) (struct mah_scale_result) {note, base}
+#define SCL_RES(note, base) ((struct mah_scale_result) {note, base})
 #define SCL_RES_L(size) (struct mah_scale_result[size]) {0}
 #define SCL_RES_C(...) (struct mah_scale_result[]) {__VA_ARGS__}
-#define SCL_RES_LIST(max, size, results) (struct mah_scale_result_list) {max, size, results}
+#define SCL_RES_LIST(max, size, results) ((struct mah_scale_result_list) {max, size, results})
 
 #define ASCEND MAH_ASCEND
 #define DESCEND MAH_DESCEND
 #define FULL MAH_FULL
+
+// Quality aliases for INTER macro //
+
+#define MAJOR MAH_MAJOR
+#define MINOR MAH_MINOR  
+#define AUGMENTED MAH_AUGMENTED
+#define DIMINISHED MAH_DIMINISHED
+#define PERFECT MAH_PERFECT
