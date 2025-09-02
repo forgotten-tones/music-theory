@@ -11,6 +11,7 @@ add_library(
     src/misc/misc.c
     src/shared/shared.c
     src/note/note.c
+    src/rhythm/rhythm.c
 )
 
 target_include_directories(

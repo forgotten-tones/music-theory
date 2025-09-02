@@ -159,5 +159,5 @@
 #define TUPLET(n, m, base) ((struct mah_tuplet) {n, m, base})
 #define TIMED_NOTE(tone, acci, pitch, dur, tuplet_ptr) ((struct mah_timed_note) {MAH_ ## tone, acci, pitch, dur, tuplet_ptr})
 
-// Time signature macro //
+// Rhythm testing macros //
 #define TIME_SIG(num, den) ((struct mah_time_sig) {num, den})

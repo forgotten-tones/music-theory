@@ -52,14 +52,6 @@ typedef struct mah_tuplet
     enum mah_dur base;
 } mah_tuplet;
 
-// There's not a good place for this right now; tehnically it's not neccassary until we start
-// dealing with measures. Since this was really only created to do testing, we should probably
-// move it to the test suite.
-typedef struct mah_time_sig
-{
-    int numerator;
-    int denominator;
-} mah_time_sig;
 
 typedef struct mah_note
 {
@@ -88,9 +80,6 @@ int mah_compare_durations(struct mah_timed_note* a, struct mah_timed_note* b, en
 
 // Tuplet functions
 struct mah_tuplet mah_create_tuplet(int n, int m, enum mah_dur base, enum mah_error* err);
-
-// Time signature and measure validation
-void mah_validate_measure(struct mah_timed_note* notes, int count, struct mah_time_sig time_sig, enum mah_error* err);
 
 // Convenience macros
 #define REST(duration) ((struct mah_timed_note) {MAH_REST, 0, 0, duration, NULL})
