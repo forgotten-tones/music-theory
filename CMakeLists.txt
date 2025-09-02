@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(mahler)
+
 add_library(
     mahler
     src/err/err.c
