@@ -1,0 +1,56 @@
+// Test note creation with various tone/accidental/pitch combinations
+
+// Test all seven tones with natural accidentals
+ASSERT_N(NOTE(C, 0, 4), NOTE(C, 0, 4));
+ASSERT_N(NOTE(D, 0, 4), NOTE(D, 0, 4));
+ASSERT_N(NOTE(E, 0, 4), NOTE(E, 0, 4));
+ASSERT_N(NOTE(F, 0, 4), NOTE(F, 0, 4));
+ASSERT_N(NOTE(G, 0, 4), NOTE(G, 0, 4));
+ASSERT_N(NOTE(A, 0, 4), NOTE(A, 0, 4));
+ASSERT_N(NOTE(B, 0, 4), NOTE(B, 0, 4));
+
+// Test with various accidentals
+ASSERT_N(NOTE(C, -2, 4), NOTE(C, -2, 4));  // Double flat
+ASSERT_N(NOTE(C, -1, 4), NOTE(C, -1, 4));  // Flat
+ASSERT_N(NOTE(C, 1, 4), NOTE(C, 1, 4));    // Sharp
+ASSERT_N(NOTE(C, 2, 4), NOTE(C, 2, 4));    // Double sharp
+
+// Test edge cases with extreme accidentals
+ASSERT_N(NOTE(F, MAH_DBFLAT, 3), NOTE(F, MAH_DBFLAT, 3));
+ASSERT_N(NOTE(B, MAH_DBSHARP, 0), NOTE(B, MAH_DBSHARP, 0));
+
+// Test various pitch ranges
+ASSERT_N(NOTE(C, 0, 0), NOTE(C, 0, 0));    // Very low pitch
+ASSERT_N(NOTE(C, 0, 1), NOTE(C, 0, 1));
+ASSERT_N(NOTE(C, 0, 2), NOTE(C, 0, 2));
+ASSERT_N(NOTE(C, 0, 3), NOTE(C, 0, 3));
+ASSERT_N(NOTE(C, 0, 5), NOTE(C, 0, 5));
+ASSERT_N(NOTE(C, 0, 6), NOTE(C, 0, 6));
+ASSERT_N(NOTE(C, 0, 7), NOTE(C, 0, 7));
+ASSERT_N(NOTE(C, 0, 8), NOTE(C, 0, 8));
+ASSERT_N(NOTE(C, 0, 9), NOTE(C, 0, 9));    // Very high pitch
+
+// Test note inequality (different tones)
+ASSERT(!comp_note(NOTE(C, 0, 4), NOTE(D, 0, 4)), "Notes should be different");
+ASSERT(!comp_note(NOTE(D, 0, 4), NOTE(E, 0, 4)), "Notes should be different");
+
+// Test note inequality (different accidentals)
+ASSERT(!comp_note(NOTE(C, 0, 4), NOTE(C, 1, 4)), "Notes should be different");
+ASSERT(!comp_note(NOTE(C, -1, 4), NOTE(C, 1, 4)), "Notes should be different");
+
+// Test note inequality (different pitches)
+ASSERT(!comp_note(NOTE(C, 0, 4), NOTE(C, 0, 5)), "Notes should be different");
+ASSERT(!comp_note(NOTE(A, 0, 3), NOTE(A, 0, 4)), "Notes should be different");
+
+// Test extreme combinations
+ASSERT_N(NOTE(G, -4, 1), NOTE(G, -4, 1));      // Max flats with low pitch
+ASSERT_N(NOTE(B, 4, 0), NOTE(B, 4, 0));        // Max sharps with very low pitch
+ASSERT_N(NOTE(F, 2, 9), NOTE(F, 2, 9));        // Double sharp with high pitch
+
+// Test with various accidental values beyond standard enum
+ASSERT_N(NOTE(D, 3, 2), NOTE(D, 3, 2));        // Triple sharp
+ASSERT_N(NOTE(A, -3, 7), NOTE(A, -3, 7));      // Triple flat
+
+// Test boundary conditions
+ASSERT_N(NOTE(C, 0, 12), NOTE(C, 0, 12));      // High pitch boundary
+ASSERT_N(NOTE(B, -2, 0), NOTE(B, -2, 0));      // Low pitch with double flat
