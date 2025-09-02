@@ -1,7 +1,7 @@
 <h1 align="center">mahler.c</h1>
 
 <div align="center">
-    
+
 <a href="">![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thelowsunoverthemoon/mahler.c/run_unit_tests.yml)</a>
 <a href="">[![Static Badge](https://img.shields.io/badge/coverage-100%25-%23327da8)](https://github.com/thelowsunoverthemoon/mahler.c/tree/master/test)</a>
 <a href="">[![Stack Overflow Badge](https://img.shields.io/badge/docs-purple)](https://github.com/thelowsunoverthemoon/mahler.c/blob/master/doc/README.md)</a>
@@ -9,8 +9,6 @@
 </div>
 
 <p align="center">Simple library for Western music theory in C99</p>
-
-
 
 ## Features
 
@@ -78,7 +76,3 @@ target_link_libraries(${PROJECT_NAME} PUBLIC mahler)
 ```
 
 where ```MAHLER_PATH``` is the path to ```mahler```. It is also simple to compile via commandline.
-
-
-
-
