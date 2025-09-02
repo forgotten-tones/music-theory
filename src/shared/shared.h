@@ -5,6 +5,14 @@
 #include "note/note.h"
 #include <stdbool.h>
 
+// Enums //
+
+typedef enum mah_inversion_type
+{
+    MAH_INV_STANDARD, // Move lowest note up one octave
+    MAH_INV_FULL      // Move lowest note up by octaves until it becomes the highest note
+} mah_inversion_type;
+
 // Macros //
 
 #define SIZE_CHROMATIC 12 // size of chromatic scale

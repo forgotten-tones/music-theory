@@ -40,6 +40,8 @@ bool comp_scale_result(struct mah_scale_result result_a, struct mah_scale_result
 bool comp_scale_results(struct mah_scale_result* results_a, struct  mah_scale_result* results_b, int size_a, int size_b);
 bool comp_scale_base(struct mah_scale_base const* base_a, struct mah_scale_base const* base_b);
 
+bool comp_nontertian_chord(struct mah_nontertian_chord chord_a, struct mah_nontertian_chord chord_b);
+
 int
 main(void)
 {
@@ -67,6 +69,11 @@ main(void)
     
     #include "suites/scale/mah_get_scale.test"
     #include "suites/scale/mah_return_scale.test"
+    
+    #include "suites/nontertian/mah_get_quartal_chord.test"
+    #include "suites/nontertian/mah_get_quintal_chord.test"
+    #include "suites/nontertian/mah_invert_nontertian_chord.test"
+    #include "suites/nontertian/mah_fold_nontertian_chord.test"
     
     printf("%d / %d Tests Passed", TEST.pass, TEST.total);
     if (TEST.pass != TEST.total) {
@@ -236,4 +243,13 @@ comp_scale_results(struct mah_scale_result* results_a, struct  mah_scale_result*
         }
     }
     return true;
+}
+bool
+comp_nontertian_chord(struct mah_nontertian_chord chord_a, struct mah_nontertian_chord chord_b)
+{
+    return chord_a.size == chord_b.size &&
+           chord_a.inv == chord_b.inv &&
+           chord_a.inv_type == chord_b.inv_type &&
+           comp_notes(chord_a.notes, chord_b.notes, chord_a.size, chord_b.size) &&
+           comp_notes(chord_a.base, chord_b.base, chord_a.size, chord_b.size);
 }

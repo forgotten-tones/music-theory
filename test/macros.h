@@ -161,3 +161,15 @@
 
 // Rhythm testing macros //
 #define TIME_SIG(num, den) ((struct mah_time_sig) {num, den})
+
+// Nontertian chord testing macros //
+#define ASSERT_NCHD(act, exp) ASSERT(comp_nontertian_chord(act, exp) && (ERR == MAH_ERROR_NONE), exp)
+#define ASSERT_NCP(func, nchd, exp) {\
+    struct mah_nontertian_chord NCHORD = nchd;\
+    func;\
+    ASSERT(comp_nontertian_chord(NCHORD, exp) && (ERR == MAH_ERROR_NONE), exp);\
+} while(0)
+
+#define NCHD(size, inv, inv_type, base, notes) ((struct mah_nontertian_chord) {size, inv, inv_type, base, notes})
+#define STANDARD MAH_INV_STANDARD
+#define INV_FULL MAH_INV_FULL

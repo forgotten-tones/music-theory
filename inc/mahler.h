@@ -15,5 +15,7 @@
 #include "key/key.h"
 #include "misc/misc.h"
 #include "rhythm/rhythm.h"
+#include "nontertian/quartal.h"
+#include "nontertian/quintal.h"
 
 #endif
